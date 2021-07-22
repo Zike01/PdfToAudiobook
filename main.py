@@ -3,7 +3,7 @@ import pdfplumber
 import pyttsx3
 
 # Get the file name
-FILENAME = "sample.pdf"
+FILENAME = "harry-potter-sample.pdf"
 
 # Create a PDF file object
 pdfFileObj = open(FILENAME, 'rb')
