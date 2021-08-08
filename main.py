@@ -1,36 +1,83 @@
 import PyPDF2
 import pdfplumber
 import pyttsx3
+from tkinter import *
+from tkinter import filedialog
 
-# Get the file name
-PDF_FILE = "samples/pdf/Harry-Potter-and-the-Philosopher.pdf"
+filename = None
 
-# Create a PDF file object
-pdfFileObj = open(PDF_FILE, 'rb')
 
-# Create a PDF file Reader Object
-pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+def convert_to_audio(pdf_file, rate):
+    # Create a PDF file object
+    pdfFileObj = open(pdf_file, 'rb')
 
-# Get the number of pages
-pages = pdfReader.numPages
+    # Create a PDF file Reader Object
+    pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
-# Initialize the pyttsx3 engine
-speaker = pyttsx3.init()
+    # Get the number of pages
+    pages = pdfReader.numPages
 
-# Set the rate of the speaker
-speaker.setProperty('rate', 150)
+    # Initialize the pyttsx3 engine
+    speaker = pyttsx3.init()
 
-# Create a pdfplumber object and loop through the pages
-with pdfplumber.open(PDF_FILE) as pdf:
-    text_list = []
-    for i in range(0, pages):
-        page = pdf.pages[i]
-        text = page.extract_text().split()
+    # Set the rate of the speaker
+    speaker.setProperty('rate', rate)
 
-        for word in text:
-            text_list.append(word)
+    # Create a pdfplumber object and loop through the pages
+    with pdfplumber.open(pdf_file) as pdf:
+        text_list = []
+        for i in range(0, pages):
+            page = pdf.pages[i]
+            text = page.extract_text().split()
 
-# Save audio to an mp3 file
-MP3_FILE = PDF_FILE.split('/')[-1].split('.')[0] + '.mp3'
-speaker.save_to_file(' '.join(text_list), f"samples/mp3/{MP3_FILE}")  
-speaker.runAndWait()
+            for word in text:
+                text_list.append(word)
+
+    # Save audio to an mp3 file
+    mp3_file = pdf_file.split('/')[-1].split('.')[0] + '.mp3'
+    speaker.save_to_file(' '.join(text_list), f"samples/mp3/{mp3_file}")  
+    speaker.runAndWait()
+    
+    
+def select_pdf():
+    """
+    Opens a dialog box for the user to select a PDF file.
+    """
+    global filename
+    filename = filedialog.askopenfilename(title='Select PDF', filetypes=[
+        ("PDF", "*.pdf"),
+    ])
+    panel.configure(text=filename)
+    
+    # # Add convert button and slider button
+    # Slider
+    speaker_rate = Label(text="Set Speaker Rate:")
+    speaker_rate.pack()
+    
+    slider = Scale(window,
+                from_=100,
+                to=200,
+                orient='horizontal'
+    )
+    slider.pack()
+    
+    # Buttons
+    convert_button = Button(text="Convert to Audio",  command=lambda: convert_to_audio(pdf_file=filename, rate=slider.get()))
+    convert_button.pack()
+
+
+#------------------------------- UI SETUP -------------------------#
+window = Tk()
+window.title("PDF To Audiobook")
+window.geometry('800x200')
+window.config(padx=20, pady=20)
+
+# Labels
+panel = Label(window, text=" ")
+panel.pack()
+
+# Buttons
+select_pdf_button = Button(text="Select PDF", command=select_pdf)
+select_pdf_button.pack()
+
+window.mainloop()
