@@ -27,8 +27,6 @@ with pdfplumber.open(FILENAME) as pdf:
 
         for word in text:
             text_list.append(word)
-            
-    print(' '.join(text_list))
   
 speaker.save_to_file(' '.join(text_list), FILENAME.split('.')[0] + '.mp3')
 speaker.runAndWait()
