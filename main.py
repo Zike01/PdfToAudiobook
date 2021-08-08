@@ -2,7 +2,7 @@ import PyPDF2
 import pdfplumber
 import pyttsx3
 from tkinter import *
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 
 filename = None
 
@@ -37,6 +37,10 @@ def convert_to_audio(pdf_file, rate):
     mp3_file = pdf_file.split('/')[-1].split('.')[0] + '.mp3'
     speaker.save_to_file(' '.join(text_list), f"samples/mp3/{mp3_file}")  
     speaker.runAndWait()
+    
+    # Open messagebox once mp3 file is saved and close window once user clicks 'ok'
+    messagebox.showinfo(title="MP3 Saved", message=f"{mp3_file} saved to samples/mp3.")
+    window.destroy()
     
     
 def select_pdf():
