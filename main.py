@@ -73,7 +73,7 @@ def select_pdf():
 #------------------------------- UI SETUP -------------------------#
 window = Tk()
 window.title("PDF To Audiobook")
-window.geometry('800x200')
+window.geometry('600x200')
 window.config(padx=20, pady=20)
 
 # Labels
