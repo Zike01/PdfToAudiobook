@@ -3,7 +3,7 @@ import pdfplumber
 import pyttsx3
 
 # Get the file name
-PDF_FILE = "Harry-Potter-and-the-Philosopher.pdf"
+PDF_FILE = "samples/pdf/Harry-Potter-and-the-Philosopher.pdf"
 
 # Create a PDF file object
 pdfFileObj = open(PDF_FILE, 'rb')
@@ -31,7 +31,6 @@ with pdfplumber.open(PDF_FILE) as pdf:
             text_list.append(word)
 
 # Save audio to an mp3 file
-MP3_FILE = PDF_FILE.split('.')[0] + '.mp3'
-speaker.save_to_file(' '.join(text_list), MP3_FILE)
-    
+MP3_FILE = PDF_FILE.split('/')[-1].split('.')[0] + '.mp3'
+speaker.save_to_file(' '.join(text_list), f"samples/mp3/{MP3_FILE}")  
 speaker.runAndWait()
