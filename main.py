@@ -4,6 +4,8 @@ import pyttsx3
 from tkinter import *
 from tkinter import filedialog, messagebox
 
+#------------------------------- CONSTANTS -------------------------#
+BLUE = '#0275D8'
 filename = None
 
 
@@ -66,11 +68,11 @@ window.geometry('600x200')
 window.config(padx=20, pady=20)
 
 # Labels
-panel = Label(window, text=" ")
+panel = Label(window, text="No file selected.")
 panel.pack()
 
 # Buttons
-select_pdf_button = Button(text="Select PDF", command=select_pdf)
+select_pdf_button = Button(text="Select PDF", bg=BLUE, fg="white", command=select_pdf)
 select_pdf_button.pack()
 
 
@@ -87,7 +89,7 @@ slider = Scale(window,
 slider.pack()
 
 # Buttons
-convert_button = Button(text="Convert to Audio",  command=lambda: convert_to_audio(pdf_file=filename, rate=slider.get()))
+convert_button = Button(text="Convert to Audio", bg=BLUE, fg="white", command=lambda: convert_to_audio(pdf_file=filename, rate=slider.get()))
 convert_button.pack()
 
 window.mainloop()
