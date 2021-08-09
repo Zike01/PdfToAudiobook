@@ -64,32 +64,32 @@ def select_pdf():
 #------------------------------- UI SETUP -------------------------#
 window = Tk()
 window.title("PDF To Audiobook")
-window.geometry('600x200')
 window.config(padx=20, pady=20)
+window.eval('tk::PlaceWindow . center')
 
 # Labels
-panel = Label(window, text="No file selected.")
-panel.pack()
+panel = Label(text="No file selected.")
+panel.grid(row=1, column=1)
+
+yeet = Label(text="YEet")
+yeet.grid(row=0, column=1)
 
 # Buttons
 select_pdf_button = Button(text="Select PDF", bg=BLUE, fg="white", command=select_pdf)
-select_pdf_button.pack()
+select_pdf_button.grid(row=2, column=1)
 
+convert_button = Button(text="Convert to Audio", bg=BLUE, fg="white", command=lambda: convert_to_audio(pdf_file=filename, rate=slider.get()))
+convert_button.grid(row=2, column=2)
 
-# # Add convert button and slider button
 # Slider
-speaker_rate = Label(text="Set Speaker Rate:")
-speaker_rate.pack()
+speaker_rate = Label(text="Speaker Rate:")
+speaker_rate.grid(row=1, column=0)
 
 slider = Scale(window,
             from_=100,
             to=200,
             orient='horizontal'
 )
-slider.pack()
-
-# Buttons
-convert_button = Button(text="Convert to Audio", bg=BLUE, fg="white", command=lambda: convert_to_audio(pdf_file=filename, rate=slider.get()))
-convert_button.pack()
+slider.grid(row=2, column=0)
 
 window.mainloop()
